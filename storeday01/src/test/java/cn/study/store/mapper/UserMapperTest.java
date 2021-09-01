@@ -15,38 +15,38 @@ public class UserMapperTest {
     UserMapper userMapper;
 
     @Test
-    public void insert(){
-        User user=new User();
+    public void insert() {
+        User user = new User();
         user.setUsername("wm");
         user.setPassword("12333");
         user.setPhone("11111111");
 
-        Integer result= userMapper.insert(user);
+        Integer result = userMapper.insert(user);
         System.out.println(result);
     }
 
     @Test
-    public void updateAvatarByUid(){
+    public void updateAvatarByUid() {
         Integer uid = 17;
-        String avatar="/root/wm";
+        String avatar = "/root/wm";
         Date modifiedTime = new Date();
         String modifiedUser = "wan";
-        Integer ret = userMapper.updateAvatarByUid(uid,avatar,modifiedUser,modifiedTime);
+        Integer ret = userMapper.updateAvatarByUid(uid, avatar, modifiedUser, modifiedTime);
         System.err.println(ret);
     }
 
     @Test
-    public void updateByUid(){
+    public void updateByUid() {
         Integer uid = 11;
         String password = "www";
         Date modifiedTime = new Date();
         String modifedUser = "111";
-        Integer ret = userMapper.updatePasswordByUid(uid,password,modifedUser,modifiedTime);
+        Integer ret = userMapper.updatePasswordByUid(uid, password, modifedUser, modifiedTime);
         System.out.println(ret);
     }
 
     @Test
-    public void updateInfoByUid(){
+    public void updateInfoByUid() {
         User user = new User();
         user.setUid(15);
         user.setModifiedUser("wm");
@@ -59,14 +59,14 @@ public class UserMapperTest {
     }
 
     @Test
-    public void findByUsername(){
-        String username="wm";
-        User user=userMapper.findByUsername(username);
+    public void findByUsername() {
+        String username = "wm";
+        User user = userMapper.findByUsername(username);
         System.err.println(user);
     }
 
     @Test
-    public void findByid(){
+    public void findByid() {
         Integer uid = 11;
         User user = userMapper.findById(uid);
         System.err.println(user);

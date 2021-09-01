@@ -15,7 +15,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         //从request获取session
         HttpSession session = request.getSession();
         //判断Session中是否不包含登录信息
-        if(session.getAttribute("uid") == null){
+        if (session.getAttribute("uid") == null) {
             //重定向
             response.sendRedirect("/web/login.html");
             return false;

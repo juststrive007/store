@@ -7,13 +7,14 @@ import java.util.Objects;
 
 /**
  * 用户实体类
+ *
  * @author wm
  * @version 1.0
- * @since 0.0
  * @see BaseEntity
+ * @since 0.0
  */
 @Data
-public class User extends BaseEntity{
+public class User extends BaseEntity {
     private static final long serialVersionUID = 1638130740689189345L;
     private Integer uid;
     private String username;

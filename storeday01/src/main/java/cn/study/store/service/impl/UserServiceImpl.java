@@ -22,13 +22,13 @@ import java.util.UUID;
 public class UserServiceImpl implements IUserService {
 
     @Autowired
-    private  UserMapper userMapper;
+    private UserMapper userMapper;
 
     @Override
     public void reg(User user) {
         //查找用户
         User result = userMapper.findByUsername(user.getUsername());
-        if(result != null){
+        if (result != null) {
             throw new UsernameDuplicatedException("用户名已存在");
         }
         //插入用户
@@ -39,7 +39,7 @@ public class UserServiceImpl implements IUserService {
          * */
         //密码加密
         String salt = UUID.randomUUID().toString().toUpperCase();
-        String password = getMd5Password(user.getPassword(),salt).toUpperCase();
+        String password = getMd5Password(user.getPassword(), salt).toUpperCase();
         user.setPassword(password);
         user.setSalt(salt);
         //配置参数
@@ -51,25 +51,25 @@ public class UserServiceImpl implements IUserService {
         user.setModifiedUser(user.getUsername());
 
         Integer ret = userMapper.insert(user);
-        if(ret != 1){
+        if (ret != 1) {
             throw new InsertException("数据库插入失败");
         }
     }
 
     @Override
-    public User login(String username, String password){
+    public User login(String username, String password) {
         //查找用户
         User result = userMapper.findByUsername(username);
         //用户是否存在判断
-        if(result ==null){
+        if (result == null) {
             throw new UserNotFoundException("用户不存在");
         }
-        if(result.getIsDelete()==1){
+        if (result.getIsDelete() == 1) {
             throw new UserNotFoundException("用户不存在");
         }
         //密码判断
-        String md5Password=getMd5Password(password, result.getSalt()).toUpperCase(Locale.ROOT);
-        if(!(md5Password.equals(result.getPassword()))){
+        String md5Password = getMd5Password(password, result.getSalt()).toUpperCase(Locale.ROOT);
+        if (!(md5Password.equals(result.getPassword()))) {
             throw new PasswordNotMatchException("用户密码错误");
         }
         //用户匹配，处理返回数据
@@ -84,23 +84,23 @@ public class UserServiceImpl implements IUserService {
     public void update(Integer uid, String username, String oldPassword, String newPassword) {
         //查询uid状态
         User user = userMapper.findById(uid);
-        if(user==null){
+        if (user == null) {
             throw new UserNotFoundException("用户不存在");
         }
-        if(user.getIsDelete()==1){
+        if (user.getIsDelete() == 1) {
             throw new UserNotFoundException("用户数据不存在");
         }
 
-        String oldMd5Password = getMd5Password(oldPassword,user.getSalt()).toUpperCase();
-        if(!user.getPassword().equals(oldMd5Password)){
+        String oldMd5Password = getMd5Password(oldPassword, user.getSalt()).toUpperCase();
+        if (!user.getPassword().equals(oldMd5Password)) {
             throw new PasswordNotMatchException("密码错误");
         }
 
         //计算新密码
-        String newMd5Password = getMd5Password(newPassword,user.getSalt()).toUpperCase();
+        String newMd5Password = getMd5Password(newPassword, user.getSalt()).toUpperCase();
         Date modifiedTime = new Date();
-        Integer result =  userMapper.updatePasswordByUid(uid,newMd5Password,username,modifiedTime);
-        if(result != 1){
+        Integer result = userMapper.updatePasswordByUid(uid, newMd5Password, username, modifiedTime);
+        if (result != 1) {
             throw new UpdateException("密码修改失败");
         }
     }
@@ -109,14 +109,14 @@ public class UserServiceImpl implements IUserService {
     public User getInfo(Integer uid) {
         //查询用户信息
         User result = userMapper.findById(uid);
-        if(result == null){
+        if (result == null) {
             throw new UserNotFoundException("用户不存在");
         }
-        if(result.getIsDelete()==1){
+        if (result.getIsDelete() == 1) {
             throw new UserNotFoundException("用户不存在");
         }
         //封装结果
-        User user=new User();
+        User user = new User();
         user.setUsername(result.getUsername());
         user.setPhone(result.getPhone());
         user.setGender(result.getGender());
@@ -128,10 +128,10 @@ public class UserServiceImpl implements IUserService {
     public void updateInfoByUid(Integer uid, String username, User user) {
         //查询uid状态
         User userinfo = userMapper.findById(uid);
-        if(userinfo==null){
+        if (userinfo == null) {
             throw new UserNotFoundException("用户不存在");
         }
-        if(userinfo.getIsDelete()==1){
+        if (userinfo.getIsDelete() == 1) {
             throw new UserNotFoundException("用户数据不存在");
         }
         //填充用户数据
@@ -139,8 +139,8 @@ public class UserServiceImpl implements IUserService {
         user.setModifiedUser(username);
         user.setModifiedTime(new Date());
 
-        Integer rows  = userMapper.updateInfoByUid(user);
-        if(rows != 1 ){
+        Integer rows = userMapper.updateInfoByUid(user);
+        if (rows != 1) {
             throw new UpdateException("更新用户数据失败");
         }
     }
@@ -149,26 +149,26 @@ public class UserServiceImpl implements IUserService {
     public void changeAvatar(Integer uid, String username, String avatar) {
         //查询uid状态
         User userinfo = userMapper.findById(uid);
-        if(userinfo==null){
+        if (userinfo == null) {
             throw new UserNotFoundException("用户不存在");
         }
-        if(userinfo.getIsDelete()==1){
+        if (userinfo.getIsDelete() == 1) {
             throw new UserNotFoundException("用户数据不存在");
         }
 
-        Integer ret=userMapper.updateAvatarByUid(uid,avatar,username,new Date());
-        if(ret!=1){
-            throw  new UpdateException("更新头像失败");
+        Integer ret = userMapper.updateAvatarByUid(uid, avatar, username, new Date());
+        if (ret != 1) {
+            throw new UpdateException("更新头像失败");
         }
     }
 
 
-    private String getMd5Password(String password, String salt){
+    private String getMd5Password(String password, String salt) {
         //加密规则
         //1.将盐拼接在密码的前后各一次
         //2.摘要运算5次
-        String str=salt+password+salt;
-        for(int i=0;i<5;i++) {
+        String str = salt + password + salt;
+        for (int i = 0; i < 5; i++) {
             str = DigestUtils.md5DigestAsHex(str.getBytes(StandardCharsets.UTF_8));
         }
         return str;

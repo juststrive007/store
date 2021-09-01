@@ -5,7 +5,7 @@ package cn.study.store.service.ex;
  *
  * @author wm
  */
-public class UpdateException extends ServiceException{
+public class UpdateException extends ServiceException {
     private static final long serialVersionUID = -6204269438469685951L;
 
     public UpdateException() {

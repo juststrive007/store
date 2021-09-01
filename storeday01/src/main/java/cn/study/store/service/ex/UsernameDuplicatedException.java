@@ -2,10 +2,10 @@ package cn.study.store.service.ex;
 
 /**
  * 用户名冲突异常
- *
  */
-public class UsernameDuplicatedException extends ServiceException{
+public class UsernameDuplicatedException extends ServiceException {
     private static final long serialVersionUID = -5L;
+
     public UsernameDuplicatedException() {
     }
 

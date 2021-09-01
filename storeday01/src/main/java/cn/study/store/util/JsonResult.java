@@ -4,6 +4,7 @@ import lombok.Data;
 
 /**
  * 用于封装返回给客户端的响应类型
+ *
  * @param <T>
  */
 @Data

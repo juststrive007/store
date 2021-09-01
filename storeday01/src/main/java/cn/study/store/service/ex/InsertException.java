@@ -2,10 +2,10 @@ package cn.study.store.service.ex;
 
 /**
  * 插入异常
- *
  */
-public class InsertException extends ServiceException{
+public class InsertException extends ServiceException {
     private static final long serialVersionUID = -3L;
+
     public InsertException() {
     }
 

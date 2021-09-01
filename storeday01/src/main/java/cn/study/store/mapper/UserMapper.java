@@ -11,6 +11,7 @@ import java.util.Date;
 public interface UserMapper {
     /**
      * 插入用户数据
+     *
      * @param user 用户数据
      * @return 受影响的行数
      */
@@ -18,28 +19,30 @@ public interface UserMapper {
 
     /**
      * 更新用户头像
-     * @param uid  用户ID
-     * @param avatar 头像路径
+     *
+     * @param uid          用户ID
+     * @param avatar       头像路径
      * @param modifiedUser 修改用户
      * @param modifiedTime 修改时间
      * @return 受影响行数
      */
     Integer updateAvatarByUid(
             @Param("uid") Integer uid,
-            @Param("avatar")String avatar,
-            @Param("modifiedUser")String modifiedUser,
-            @Param("modifiedTime")Date modifiedTime
+            @Param("avatar") String avatar,
+            @Param("modifiedUser") String modifiedUser,
+            @Param("modifiedTime") Date modifiedTime
     );
 
     /**
      * 更新用户密码
-     * @param uid 用户id
-     * @param password 新密码
+     *
+     * @param uid          用户id
+     * @param password     新密码
      * @param modifiedUser 修改用户
      * @param modifiedTime 修改时间
      * @return 修改行数
      */
-    Integer  updatePasswordByUid(
+    Integer updatePasswordByUid(
             @Param("uid") Integer uid,
             @Param("password") String password,
             @Param("modifiedUser") String modifiedUser,
@@ -48,6 +51,7 @@ public interface UserMapper {
 
     /**
      * 根据用户名查询用户数据
+     *
      * @param name 用户名
      * @return 匹配用户数据，如果没有返回null
      */
@@ -55,6 +59,7 @@ public interface UserMapper {
 
     /**
      * 根据ID查找用户数据
+     *
      * @param uid 用户id
      * @return id对应的用户数据
      */
@@ -62,7 +67,8 @@ public interface UserMapper {
 
     /**
      * 根据用户id修改用户数据
-     * @param user 封装了用户的id及新修改的用户数据
+     *
+     * @param user 封装了用户的id及新修改的用户数据，可以封装手机号码、邮箱等
      * @return 修改行数
      */
     Integer updateInfoByUid(User user);

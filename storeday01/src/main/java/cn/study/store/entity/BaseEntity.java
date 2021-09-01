@@ -7,6 +7,7 @@ import java.util.Date;
 
 /**
  * 实体类基类
+ *
  * @author wm
  */
 @Data

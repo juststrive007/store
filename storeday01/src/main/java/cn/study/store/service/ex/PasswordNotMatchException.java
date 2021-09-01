@@ -5,7 +5,7 @@ package cn.study.store.service.ex;
  *
  * @author wm
  */
-public class PasswordNotMatchException extends ServiceException{
+public class PasswordNotMatchException extends ServiceException {
 
     private static final long serialVersionUID = 1894749589419465801L;
 

@@ -3,8 +3,9 @@ package cn.study.store.service.ex;
 /**
  * 业务异常基类
  */
-public class ServiceException extends RuntimeException{
+public class ServiceException extends RuntimeException {
     private static final long serialVersionUID = -4L;
+
     public ServiceException() {
     }
 

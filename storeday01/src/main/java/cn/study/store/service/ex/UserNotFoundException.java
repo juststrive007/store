@@ -5,7 +5,7 @@ package cn.study.store.service.ex;
  *
  * @author wm
  */
-public class UserNotFoundException extends ServiceException{
+public class UserNotFoundException extends ServiceException {
 
     private static final long serialVersionUID = 7096322544364858703L;
 

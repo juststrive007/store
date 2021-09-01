@@ -26,9 +26,9 @@ class StoreApplicationTests {
     }
 
     @Test
-    public void md5(){
-        String passwd="1111";
-        String md5passwd= DigestUtils.md5DigestAsHex(passwd.getBytes(StandardCharsets.UTF_8));
+    public void md5() {
+        String passwd = "1111";
+        String md5passwd = DigestUtils.md5DigestAsHex(passwd.getBytes(StandardCharsets.UTF_8));
         System.err.println(md5passwd);
     }
 }

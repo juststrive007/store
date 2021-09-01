@@ -62,9 +62,10 @@ public class UserController extends BaseController {
 
     /**
      * 修改用户密码
+     *
      * @param oldPassword 老密码
      * @param newPassword 新密码
-     * @param session httpsession 包含用户的数据
+     * @param session     httpsession 包含用户的数据
      * @return 返回结果
      */
     @RequestMapping("change_password")
@@ -92,14 +93,14 @@ public class UserController extends BaseController {
         Integer uid = Integer.valueOf(session.getAttribute("uid").toString());
         User user = iUserService.getInfo(uid);
 
-        return new JsonResult<>(OK,user);
+        return new JsonResult<>(OK, user);
     }
 
     @RequestMapping("change_info")
-    public JsonResult<Void> changeInfo(User user,HttpSession session){
+    public JsonResult<Void> changeInfo(User user, HttpSession session) {
         Integer uid = Integer.valueOf(session.getAttribute("uid").toString());
         String username = session.getAttribute("username").toString();
-        iUserService.updateInfoByUid(uid,username,user);
+        iUserService.updateInfoByUid(uid, username, user);
         return new JsonResult<>(OK);
     }
 
