@@ -96,7 +96,7 @@ public class UserServiceImpl implements IUserService {
             throw new PasswordNotMatchException("密码错误");
         }
 
-        //计算新密码
+        //计算新密码，
         String newMd5Password = getMd5Password(newPassword, user.getSalt()).toUpperCase();
         Date modifiedTime = new Date();
         Integer result = userMapper.updatePasswordByUid(uid, newMd5Password, username, modifiedTime);
