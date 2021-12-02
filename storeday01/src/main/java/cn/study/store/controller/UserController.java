@@ -2,14 +2,9 @@ package cn.study.store.controller;
 
 import cn.study.store.entity.User;
 import cn.study.store.service.IUserService;
-import cn.study.store.service.ex.InsertException;
-import cn.study.store.service.ex.ServiceException;
-import cn.study.store.service.ex.UsernameDuplicatedException;
+import cn.study.store.util.FileCopy;
 import cn.study.store.util.JsonResult;
-import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
