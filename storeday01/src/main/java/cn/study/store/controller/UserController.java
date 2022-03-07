@@ -2,14 +2,14 @@ package cn.study.store.controller;
 
 import cn.study.store.entity.User;
 import cn.study.store.service.IUserService;
-import cn.study.store.util.FileCopy;
 import cn.study.store.util.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * 用户操作控制器类
@@ -97,6 +97,47 @@ public class UserController extends BaseController {
         String username = session.getAttribute("username").toString();
         iUserService.updateInfoByUid(uid, username, user);
         return new JsonResult<>(OK);
+    }
+
+    @PostMapping("change_avatar")
+    public JsonResult<String> changeAvatar(@RequestParam("file") MultipartFile file,
+                                           HttpSession session) {
+        //原始文件名
+        String originFilename = file.getOriginalFilename();
+        //保存上传头像的文件夹
+        String dir = session.getServletContext().getRealPath("upload");
+        File dirFile = new File(dir);
+        if (!dirFile.exists()) {
+            dirFile.mkdirs();
+        }
+
+        //保存上传头像的文件名
+        String name = System.currentTimeMillis() +"-"+ System.nanoTime();
+        String suffix = "";
+        int i = originFilename.indexOf(".");
+        if (i > 0) {
+            suffix = originFilename.substring(i);
+        }
+        String filename = name + suffix;
+
+        //用户头像路径
+        String avatar = "/upload/"+filename;
+        //保存文件
+        try {
+            File dest = new File(dir,filename);
+            file.transferTo(dest);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        Integer uid = Integer.valueOf(session.getAttribute("uid").toString());
+        String username = session.getAttribute("username").toString();
+
+
+        iUserService.changeAvatar(uid, username, avatar);
+
+        return new JsonResult<>(OK,avatar);
     }
 
 
