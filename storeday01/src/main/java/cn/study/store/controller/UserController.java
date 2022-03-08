@@ -1,9 +1,12 @@
 package cn.study.store.controller;
 
+import cn.study.store.controller.ex.FileEmptyException;
+import cn.study.store.controller.ex.FileSizeException;
 import cn.study.store.entity.User;
 import cn.study.store.service.IUserService;
 import cn.study.store.util.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -99,9 +102,25 @@ public class UserController extends BaseController {
         return new JsonResult<>(OK);
     }
 
+    // 当项目启动的时候，设置头像文件大小限制Byte
+    @Value("${project.avatar-max-size}")
+    private  int maxSize;
+
     @PostMapping("change_avatar")
     public JsonResult<String> changeAvatar(@RequestParam("file") MultipartFile file,
                                            HttpSession session) {
+        //文件是否为空
+        if (file.isEmpty()) {
+            throw new FileEmptyException(
+                    "请选择要上传的文件");
+        }
+
+        // 文件大小byte
+        if (file.getSize() > maxSize) {
+            throw new FileSizeException(
+                    "文件超出最大限制"+maxSize/1024+"KB");
+        }
+
         //原始文件名
         String originFilename = file.getOriginalFilename();
         //保存上传头像的文件夹
@@ -112,7 +131,7 @@ public class UserController extends BaseController {
         }
 
         //保存上传头像的文件名
-        String name = System.currentTimeMillis() +"-"+ System.nanoTime();
+        String name = System.currentTimeMillis() + "-" + System.nanoTime();
         String suffix = "";
         int i = originFilename.indexOf(".");
         if (i > 0) {
@@ -121,10 +140,10 @@ public class UserController extends BaseController {
         String filename = name + suffix;
 
         //用户头像路径
-        String avatar = "/upload/"+filename;
+        String avatar = "/upload/" + filename;
         //保存文件
         try {
-            File dest = new File(dir,filename);
+            File dest = new File(dir, filename);
             file.transferTo(dest);
         } catch (IOException e) {
             e.printStackTrace();
@@ -137,7 +156,7 @@ public class UserController extends BaseController {
 
         iUserService.changeAvatar(uid, username, avatar);
 
-        return new JsonResult<>(OK,avatar);
+        return new JsonResult<>(OK, avatar);
     }
 
 
